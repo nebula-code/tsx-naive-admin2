@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { setupStore } from './store'
 import { setupRouterGuard, setupRouter } from './router'
 
-import App from './App.vue'
+import App from './App'
 
 // import './assets/main.css'
 import './style/main.css'

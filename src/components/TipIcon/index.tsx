@@ -24,7 +24,7 @@ const TipIcon = defineComponent({
           trigger: () => (
             <NIcon
               size={30}
-              style={{ margin: '0 4px', cursor: 'pointer', paddingTop: '2px' }}
+              style={{ margin: '0 4px', cursor: 'pointer' }}
             >
               {h(props.iconComp as DefineComponent, {
                 onClick: () => emit('clickIcon')
