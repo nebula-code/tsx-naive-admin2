@@ -12,10 +12,13 @@ import {
   GithubOutlined,
   LogoutOutlined,
   SettingOutlined,
-  UserOutlined
+  UserOutlined,
+  FullscreenExitOutlined,
+  FullscreenOutlined
 } from '@vicons/antd'
 import { RouterView } from 'vue-router'
 import { renderIcon } from '@/utils'
+import { useFullscreen } from '@/hooks'
 import TipIcon from '@/components/TipIcon'
 import GlobalDraw from '@/components/GlobalDraw'
 import TheLogo from './components/TheLogo'
@@ -74,6 +77,9 @@ const PageLayout = defineComponent({
       }
     }
 
+    // 全屏
+    const { isFullscreen, toggle } = $(useFullscreen())
+
     return () => (
       <NLayout
         class={styles['page-layout']}
@@ -128,26 +134,24 @@ const PageLayout = defineComponent({
             <div class={styles['left-board']}>1</div>
             <div class={styles['right-board']}>
               <div class={styles['icon-tools']}>
+                {isFullscreen ? (
+                  <TipIcon
+                    title="退出全屏"
+                    iconComp={FullscreenExitOutlined}
+                    onClickIcon={toggle}
+                  />
+                ) : (
+                  <TipIcon
+                    title="进入全屏"
+                    iconComp={FullscreenOutlined}
+                    onClickIcon={toggle}
+                  />
+                )}
+
                 <TipIcon
                   title="GitHub"
                   iconComp={GithubOutlined}
                   onClickIcon={goHref}
-                />
-                <TipIcon
-                  title="GitHub"
-                  iconComp={GithubOutlined}
-                />
-                <TipIcon
-                  title="GitHub"
-                  iconComp={GithubOutlined}
-                />
-                <TipIcon
-                  title="GitHub"
-                  iconComp={GithubOutlined}
-                />
-                <TipIcon
-                  title="GitHub"
-                  iconComp={GithubOutlined}
                 />
               </div>
 
