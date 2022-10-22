@@ -1,4 +1,3 @@
-import TipIcon from '@/components/TipIcon'
 import {
   NLayout,
   NLayoutHeader,
@@ -6,7 +5,8 @@ import {
   NLayoutContent,
   NH2,
   NAvatar,
-  NDropdown
+  NDropdown,
+  NButton
 } from 'naive-ui'
 import {
   GithubOutlined,
@@ -16,6 +16,8 @@ import {
 } from '@vicons/antd'
 import { RouterView } from 'vue-router'
 import { renderIcon } from '@/utils'
+import TipIcon from '@/components/TipIcon'
+import GlobalDraw from '@/components/GlobalDraw'
 import TheLogo from './components/TheLogo'
 import styles from './style/PageLayout.module.css'
 
@@ -54,6 +56,9 @@ const PageLayout = defineComponent({
       }
     ]
 
+    // globalDraw
+    let showDraw = $ref(false)
+
     const handleSelect = (key: string): void => {
       switch (key) {
         case DropdownKey.PROFILE:
@@ -61,6 +66,7 @@ const PageLayout = defineComponent({
           break
         case DropdownKey.EDITSETTING:
           console.log(DropdownKey.EDITSETTING)
+          showDraw = true
           break
         case DropdownKey.LOGOUT:
           console.log(DropdownKey.LOGOUT)
@@ -166,9 +172,13 @@ const PageLayout = defineComponent({
             contentStyle={{ padding: '20px' }}
             style={{ marginTop: '50px' }}
           >
+            <NButton onClick={() => (showDraw = true)}>展开</NButton>
+
             <RouterView />
           </NLayoutContent>
         </NLayout>
+
+        <GlobalDraw v-model:show={showDraw} />
       </NLayout>
     )
   }
