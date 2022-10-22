@@ -6,13 +6,24 @@ import {
   NLayoutContent,
   NH2,
   NAvatar,
-  NSpace,
   NDropdown
 } from 'naive-ui'
-import { GithubOutlined } from '@vicons/antd'
+import {
+  GithubOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined
+} from '@vicons/antd'
 import { RouterView } from 'vue-router'
+import { renderIcon } from '@/utils'
 import TheLogo from './components/TheLogo'
 import styles from './style/PageLayout.module.css'
+
+enum DropdownKey {
+  PROFILE = 'profile',
+  EDITSETTING = 'editSetting',
+  LOGOUT = 'logout'
+}
 
 const PageLayout = defineComponent({
   name: 'PageLayout',
@@ -21,23 +32,41 @@ const PageLayout = defineComponent({
       window.open(`https://www.baidu.com`)
     }
 
-    // const dropOptions = [
-    //   {
-    //     label: '用户资料',
-    //     key: 'profile',
-    //     icon: renderIcon(UserIcon)
-    //   },
-    //   {
-    //     label: '编辑用户资料',
-    //     key: 'editProfile',
-    //     icon: renderIcon(EditIcon)
-    //   },
-    //   {
-    //     label: '退出登录',
-    //     key: 'logout',
-    //     icon: renderIcon(LogoutIcon)
-    //   }
-    // ]
+    const dropOptions = [
+      {
+        label: '用户资料',
+        key: 'profile',
+        icon: renderIcon(UserOutlined)
+      },
+      {
+        label: '编辑设置',
+        key: 'editSetting',
+        icon: renderIcon(SettingOutlined)
+      },
+      {
+        type: 'divider',
+        key: 'd1'
+      },
+      {
+        label: '退出登录',
+        key: 'logout',
+        icon: renderIcon(LogoutOutlined)
+      }
+    ]
+
+    const handleSelect = (key: string): void => {
+      switch (key) {
+        case DropdownKey.PROFILE:
+          console.log(DropdownKey.PROFILE)
+          break
+        case DropdownKey.EDITSETTING:
+          console.log(DropdownKey.EDITSETTING)
+          break
+        case DropdownKey.LOGOUT:
+          console.log(DropdownKey.LOGOUT)
+          break
+      }
+    }
 
     return () => (
       <NLayout
@@ -116,7 +145,12 @@ const PageLayout = defineComponent({
                 />
               </div>
 
-              <NDropdown options={[]}>
+              <NDropdown
+                options={dropOptions}
+                showArrow
+                onSelect={handleSelect}
+                trigger={'click'}
+              >
                 <NAvatar
                   style={{ cursor: 'pointer' }}
                   round

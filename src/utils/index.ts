@@ -1,0 +1,1 @@
+export { renderIcon } from './renderIcon'
