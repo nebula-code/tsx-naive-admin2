@@ -5,7 +5,7 @@ import type { RouteRecordRaw } from 'vue-router'
 export default {
   path: 'dashboard',
   name: 'dashboard',
-  redirect: 'workplace',
+  redirect: '/dashboard/workplace',
   component: BlankLayout,
   meta: {
     icon: AppstoreFilled,

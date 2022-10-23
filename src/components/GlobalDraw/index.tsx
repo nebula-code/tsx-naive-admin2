@@ -48,9 +48,15 @@ const GlobalDraw = defineComponent({
   setup(props) {
     // configStore
     const configStore = useConfigStore()
-    const { isFixHeader, bordered, triggerType, showLogo, showTagsView } = $(
-      storeToRefs(configStore)
-    )
+    const {
+      isFixHeader,
+      bordered,
+      triggerType,
+      showLogo,
+      showTagsView,
+      showBread,
+      showBreadIcon
+    } = $(storeToRefs(configStore))
 
     return () => (
       <NDrawer
@@ -72,6 +78,15 @@ const GlobalDraw = defineComponent({
             </DescSetting>
             <DescSetting title="显示边框线">
               <NSwitch v-model:value={bordered} />
+            </DescSetting>
+            <DescSetting title="显示面包屑">
+              <NSwitch v-model:value={showBread} />
+            </DescSetting>
+            <DescSetting
+              v-show={showBread}
+              title="显示面包屑图标"
+            >
+              <NSwitch v-model:value={showBreadIcon} />
             </DescSetting>
             <DescSetting title="折叠风格">
               <NSelect

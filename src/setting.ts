@@ -6,6 +6,8 @@ export interface SettingConfig {
   isFixHeader: boolean
   showTagsView: boolean
   showLogo: boolean
+  showBread: boolean
+  showBreadIcon: boolean
 }
 
 const settings: SettingConfig = {
@@ -13,7 +15,9 @@ const settings: SettingConfig = {
   bordered: true,
   isFixHeader: true,
   showTagsView: true,
-  showLogo: true
+  showLogo: true,
+  showBread: true,
+  showBreadIcon: true
 }
 
 export default settings

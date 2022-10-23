@@ -27,6 +27,7 @@ import BaseMenu from './components/BaseMenu'
 import styles from './style/PageLayout.module.css'
 import AppMain from './components/AppMain'
 import { useConfigStore } from '@/store/modules/config'
+import Breadcrumb from '@/components/Breadcrumb'
 
 enum DropdownKey {
   PROFILE = 'profile',
@@ -93,9 +94,15 @@ const PageLayout = defineComponent({
 
     // configStore
     const configStore = useConfigStore()
-    const { isFixHeader, bordered, triggerType, showLogo, showTagsView } = $(
-      storeToRefs(configStore)
-    )
+    const {
+      isFixHeader,
+      bordered,
+      triggerType,
+      showLogo,
+      showTagsView,
+      showBread,
+      showBreadIcon
+    } = $(storeToRefs(configStore))
 
     // contentTop
     const contentMarginTop = $computed(() =>
@@ -153,22 +160,39 @@ const PageLayout = defineComponent({
                 borderBottom: borderedStyle
               }}
             >
-              {triggerType === 'custom' ? (
-                <NEl
-                  tag="div"
-                  class={styles['left-board']}
-                  onClick={toggleCollapsed}
-                >
-                  <NIcon
-                    size={22}
-                    style={{ marginTop: '4px' }}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                {triggerType === 'custom' && (
+                  <NEl
+                    tag="div"
+                    class={styles['left-board']}
+                    onClick={toggleCollapsed}
                   >
-                    {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                  </NIcon>
-                </NEl>
-              ) : (
-                <div></div>
-              )}
+                    <NIcon
+                      size={22}
+                      style={{ marginTop: '4px' }}
+                    >
+                      {collapsed ? (
+                        <MenuUnfoldOutlined />
+                      ) : (
+                        <MenuFoldOutlined />
+                      )}
+                    </NIcon>
+                  </NEl>
+                )}
+
+                {showBread && (
+                  <Breadcrumb
+                    showBreadIcon={showBreadIcon}
+                    style={{ marginLeft: '3px' }}
+                  />
+                )}
+              </div>
 
               <div class={styles['right-board']}>
                 <div class={styles['icon-tools']}>
