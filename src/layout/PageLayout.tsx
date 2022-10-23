@@ -22,6 +22,7 @@ import { useFullscreen } from '@/hooks'
 import TipIcon from '@/components/TipIcon'
 import GlobalDraw from '@/components/GlobalDraw'
 import TheLogo from './components/TheLogo'
+import BaseMenu from './components/BaseMenu'
 import styles from './style/PageLayout.module.css'
 
 enum DropdownKey {
@@ -80,6 +81,9 @@ const PageLayout = defineComponent({
     // 全屏
     const { isFullscreen, toggle } = $(useFullscreen())
 
+    // collapsed
+    let collapsed = $ref(true)
+
     return () => (
       <NLayout
         class={styles['page-layout']}
@@ -91,38 +95,23 @@ const PageLayout = defineComponent({
           class={styles['page-layout-sider']}
           nativeScrollbar={false}
           bordered
+          showTrigger
+          collapseMode="width"
+          collapsedWidth={64}
+          collapsed={collapsed}
+          onExpand={() => (collapsed = false)}
+          onCollapse={() => (collapsed = true)}
         >
           <TheLogo
+            collapsed={collapsed}
             style={{
-              width: '240px',
+              width: collapsed ? '64px' : '240px',
               borderRight: '1px solid var(--n-border-color)',
               borderBottom: '1px solid var(--n-border-color)'
             }}
           />
 
-          <div>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-            <NH2>1</NH2>
-          </div>
+          <BaseMenu />
         </NLayoutSider>
 
         <NLayout nativeScrollbar={false}>
