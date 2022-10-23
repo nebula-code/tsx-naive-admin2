@@ -1,7 +1,7 @@
 const WorkPlace = defineComponent({
   name: 'WorkPlace',
   setup() {
-    return () => <div>{}</div>
+    return () => <div>{'WorkPlace'}</div>
   }
 })
 

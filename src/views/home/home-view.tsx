@@ -1,7 +1,7 @@
 const HomeView = defineComponent({
   name: 'HomeView',
   setup() {
-    return () => <div>{}</div>
+    return () => <div>{'home'}</div>
   }
 })
 

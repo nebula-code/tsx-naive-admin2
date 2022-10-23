@@ -10,10 +10,10 @@ export interface SettingConfig {
 
 const settings: SettingConfig = {
   triggerType: 'custom',
-  bordered: false,
-  isFixHeader: false,
-  showTagsView: false,
-  showLogo: false
+  bordered: true,
+  isFixHeader: true,
+  showTagsView: true,
+  showLogo: true
 }
 
 export default settings

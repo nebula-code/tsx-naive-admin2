@@ -5,7 +5,6 @@ import {
   NLayoutContent,
   NAvatar,
   NDropdown,
-  NButton,
   NEl,
   NIcon
 } from 'naive-ui'
@@ -86,7 +85,7 @@ const PageLayout = defineComponent({
     const { isFullscreen, toggle } = $(useFullscreen())
 
     // collapsed
-    let collapsed = $ref(true)
+    let collapsed = $ref(false)
 
     const toggleCollapsed = () => {
       collapsed = !collapsed
@@ -218,8 +217,6 @@ const PageLayout = defineComponent({
             contentStyle={{ padding: '20px' }}
             style={{ marginTop: contentMarginTop }}
           >
-            <NButton onClick={() => (showDraw = true)}>展开</NButton>
-
             <AppMain />
           </NLayoutContent>
         </NLayout>

@@ -1,7 +1,7 @@
 const MonitorView = defineComponent({
   name: 'MonitorView',
   setup() {
-    return () => <div>{}</div>
+    return () => <div>{'MonitorView'}</div>
   }
 })
 

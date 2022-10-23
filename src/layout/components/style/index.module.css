@@ -8,6 +8,7 @@
   top: 0;
   left: 0;
   background-color: var(--n-color);
+  transition: width .3s var(--n-bezier);
 }
 
 .logo-img {
