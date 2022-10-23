@@ -8,14 +8,27 @@
   margin-top: 50px;
 }
 
+/* tag-views */
+.tag-views {
+  height: 38px;
+}
+
 .page-layout-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
+  border-bottom: 1px solid var(--n-border-color);
+  min-height: 50px;
 }
 
-.left-board {}
+.left-board {
+  cursor: pointer;
+  padding: 9px 14px;
+}
+
+.left-board:hover {
+  background-color: var(--hover-color);
+}
 
 .right-board {
   height: 100%;

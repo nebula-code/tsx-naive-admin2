@@ -6,7 +6,9 @@ import {
   NH2,
   NAvatar,
   NDropdown,
-  NButton
+  NButton,
+  NEl,
+  NIcon
 } from 'naive-ui'
 import {
   GithubOutlined,
@@ -14,9 +16,10 @@ import {
   SettingOutlined,
   UserOutlined,
   FullscreenExitOutlined,
-  FullscreenOutlined
+  FullscreenOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
 } from '@vicons/antd'
-import { RouterView } from 'vue-router'
 import { renderIcon } from '@/utils'
 import { useFullscreen } from '@/hooks'
 import TipIcon from '@/components/TipIcon'
@@ -25,6 +28,8 @@ import TheLogo from './components/TheLogo'
 import BaseMenu from './components/BaseMenu'
 import styles from './style/PageLayout.module.css'
 import AppMain from './components/AppMain'
+import { useConfigStore } from '@/store/modules/config'
+import { Fragment } from 'vue'
 
 enum DropdownKey {
   PROFILE = 'profile',
@@ -85,6 +90,16 @@ const PageLayout = defineComponent({
     // collapsed
     let collapsed = $ref(true)
 
+    const toggleCollapsed = () => {
+      collapsed = !collapsed
+    }
+
+    // configStore
+    const configStore = useConfigStore()
+    const { isFixHeader, bordered, triggerType, showTagsView } = $(
+      storeToRefs(configStore)
+    )
+
     return () => (
       <NLayout
         class={styles['page-layout']}
@@ -95,8 +110,8 @@ const PageLayout = defineComponent({
           width={240}
           class={styles['page-layout-sider']}
           nativeScrollbar={false}
-          bordered
-          showTrigger
+          bordered={bordered}
+          showTrigger={triggerType}
           collapseMode="width"
           collapsedWidth={64}
           collapsed={collapsed}
@@ -107,8 +122,8 @@ const PageLayout = defineComponent({
             collapsed={collapsed}
             style={{
               width: collapsed ? '64px' : '240px',
-              borderRight: '1px solid var(--n-border-color)',
-              borderBottom: '1px solid var(--n-border-color)'
+              borderRight: bordered && '1px solid var(--n-border-color)',
+              borderBottom: bordered && '1px solid var(--n-border-color)'
             }}
           />
 
@@ -117,54 +132,77 @@ const PageLayout = defineComponent({
 
         <NLayout nativeScrollbar={false}>
           <NLayoutHeader
-            bordered
-            style={{ height: '50px' }}
-            class={styles['page-layout-header']}
+            bordered={bordered}
+            style={{ height: showTagsView ? '88px' : '50px' }}
           >
-            <div class={styles['left-board']}>1</div>
-            <div class={styles['right-board']}>
-              <div class={styles['icon-tools']}>
-                {isFullscreen ? (
-                  <TipIcon
-                    title="退出全屏"
-                    iconComp={FullscreenExitOutlined}
-                    onClickIcon={toggle}
-                  />
-                ) : (
-                  <TipIcon
-                    title="进入全屏"
-                    iconComp={FullscreenOutlined}
-                    onClickIcon={toggle}
-                  />
-                )}
+            <div
+              class={styles['page-layout-header']}
+              style={{ height: '50px' }}
+            >
+              {!triggerType ? (
+                <NEl
+                  tag="div"
+                  class={styles['left-board']}
+                >
+                  <NIcon
+                    size={22}
+                    style={{ marginTop: '4px' }}
+                  >
+                    {h(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                      onClick: toggleCollapsed
+                    })}
+                  </NIcon>
+                </NEl>
+              ) : (
+                <div></div>
+              )}
 
-                <TipIcon
-                  title="GitHub"
-                  iconComp={GithubOutlined}
-                  onClickIcon={goHref}
-                />
+              <div class={styles['right-board']}>
+                <div class={styles['icon-tools']}>
+                  {isFullscreen ? (
+                    <TipIcon
+                      title="退出全屏"
+                      iconComp={FullscreenExitOutlined}
+                      onClickIcon={toggle}
+                    />
+                  ) : (
+                    <TipIcon
+                      title="进入全屏"
+                      iconComp={FullscreenOutlined}
+                      onClickIcon={toggle}
+                    />
+                  )}
+
+                  <TipIcon
+                    title="GitHub"
+                    iconComp={GithubOutlined}
+                    onClickIcon={goHref}
+                  />
+                </div>
+
+                <NDropdown
+                  options={dropOptions}
+                  showArrow
+                  onSelect={handleSelect}
+                  trigger={'click'}
+                >
+                  <NAvatar
+                    style={{ cursor: 'pointer' }}
+                    round
+                    size="medium"
+                    src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
+                  />
+                </NDropdown>
               </div>
-
-              <NDropdown
-                options={dropOptions}
-                showArrow
-                onSelect={handleSelect}
-                trigger={'click'}
-              >
-                <NAvatar
-                  style={{ cursor: 'pointer' }}
-                  round
-                  size="medium"
-                  src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
-                />
-              </NDropdown>
             </div>
+            <div class={styles['tag-views']}>111</div>
           </NLayoutHeader>
+
           <NLayoutContent
-            position={'absolute'}
+            position={isFixHeader ? 'absolute' : 'static'}
             nativeScrollbar={false}
             contentStyle={{ padding: '20px' }}
-            style={{ marginTop: '50px' }}
+            style={{ marginTop: isFixHeader ? '88px' : 0 }}
           >
             <NButton onClick={() => (showDraw = true)}>展开</NButton>
 

@@ -5,7 +5,7 @@ export default defineComponent({
   name: 'App',
   setup() {
     return () => (
-      <NConfigProvider theme={darkTheme}>
+      <NConfigProvider theme={null}>
         <RouterView />
       </NConfigProvider>
     )
