@@ -40,6 +40,8 @@ enum DropdownKey {
 const PageLayout = defineComponent({
   name: 'PageLayout',
   setup() {
+    const router = useRouter()
+
     const goHref = () => {
       window.open(`https://www.baidu.com`)
     }
@@ -75,11 +77,10 @@ const PageLayout = defineComponent({
           console.log(DropdownKey.PROFILE)
           break
         case DropdownKey.EDITSETTING:
-          console.log(DropdownKey.EDITSETTING)
           showDraw = true
           break
         case DropdownKey.LOGOUT:
-          console.log(DropdownKey.LOGOUT)
+          router.replace({ name: 'login' })
           break
       }
     }
@@ -104,11 +105,8 @@ const PageLayout = defineComponent({
       showTagsView,
       showBread,
       showBreadIcon,
-      theme,
-      themeStyle
+      theme
     } = $(storeToRefs(configStore))
-
-    console.log(themeStyle)
 
     // contentTop
     const contentMarginTop = $computed(() =>
