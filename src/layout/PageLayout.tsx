@@ -3,7 +3,6 @@ import {
   NLayoutHeader,
   NLayoutSider,
   NLayoutContent,
-  NH2,
   NAvatar,
   NDropdown,
   NButton,
@@ -29,7 +28,6 @@ import BaseMenu from './components/BaseMenu'
 import styles from './style/PageLayout.module.css'
 import AppMain from './components/AppMain'
 import { useConfigStore } from '@/store/modules/config'
-import { Fragment } from 'vue'
 
 enum DropdownKey {
   PROFILE = 'profile',
@@ -96,8 +94,17 @@ const PageLayout = defineComponent({
 
     // configStore
     const configStore = useConfigStore()
-    const { isFixHeader, bordered, triggerType, showTagsView } = $(
+    const { isFixHeader, bordered, triggerType, showLogo, showTagsView } = $(
       storeToRefs(configStore)
+    )
+
+    // contentTop
+    const contentMarginTop = $computed(() =>
+      isFixHeader ? (showTagsView ? '88px' : '50px') : 0
+    )
+    // bordered
+    const borderedStyle = $computed(() =>
+      bordered ? '1px solid var(--n-border-color)' : 'none'
     )
 
     return () => (
@@ -108,24 +115,26 @@ const PageLayout = defineComponent({
       >
         <NLayoutSider
           width={240}
-          class={styles['page-layout-sider']}
+          style={{ marginTop: showLogo ? '50px' : 0 }}
           nativeScrollbar={false}
           bordered={bordered}
-          showTrigger={triggerType}
+          showTrigger={triggerType === 'custom' ? false : triggerType}
           collapseMode="width"
           collapsedWidth={64}
           collapsed={collapsed}
           onExpand={() => (collapsed = false)}
           onCollapse={() => (collapsed = true)}
         >
-          <TheLogo
-            collapsed={collapsed}
-            style={{
-              width: collapsed ? '64px' : '240px',
-              borderRight: bordered && '1px solid var(--n-border-color)',
-              borderBottom: bordered && '1px solid var(--n-border-color)'
-            }}
-          />
+          {showLogo && (
+            <TheLogo
+              collapsed={collapsed}
+              style={{
+                width: collapsed ? '64px' : '240px',
+                borderRight: borderedStyle,
+                borderBottom: borderedStyle
+              }}
+            />
+          )}
 
           <BaseMenu />
         </NLayoutSider>
@@ -133,24 +142,29 @@ const PageLayout = defineComponent({
         <NLayout nativeScrollbar={false}>
           <NLayoutHeader
             bordered={bordered}
-            style={{ height: showTagsView ? '88px' : '50px' }}
+            style={{
+              height: showTagsView ? '88px' : '50px',
+              transition: 'border-color 0s'
+            }}
           >
             <div
               class={styles['page-layout-header']}
-              style={{ height: '50px' }}
+              style={{
+                height: '50px',
+                borderBottom: borderedStyle
+              }}
             >
-              {!triggerType ? (
+              {triggerType === 'custom' ? (
                 <NEl
                   tag="div"
                   class={styles['left-board']}
+                  onClick={toggleCollapsed}
                 >
                   <NIcon
                     size={22}
                     style={{ marginTop: '4px' }}
                   >
-                    {h(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                      onClick: toggleCollapsed
-                    })}
+                    {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                   </NIcon>
                 </NEl>
               ) : (
@@ -202,7 +216,7 @@ const PageLayout = defineComponent({
             position={isFixHeader ? 'absolute' : 'static'}
             nativeScrollbar={false}
             contentStyle={{ padding: '20px' }}
-            style={{ marginTop: isFixHeader ? '88px' : 0 }}
+            style={{ marginTop: contentMarginTop }}
           >
             <NButton onClick={() => (showDraw = true)}>展开</NButton>
 

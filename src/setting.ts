@@ -1,15 +1,19 @@
+export type TriggerType = boolean | 'bar' | 'arrow-circle'
+
 export interface SettingConfig {
-  triggerType: boolean | 'bar' | 'arrow-circle'
+  triggerType: TriggerType | 'custom'
   bordered: boolean
   isFixHeader: boolean
   showTagsView: boolean
+  showLogo: boolean
 }
 
 const settings: SettingConfig = {
-  triggerType: 'bar',
-  bordered: true,
+  triggerType: 'custom',
+  bordered: false,
   isFixHeader: false,
-  showTagsView: false
+  showTagsView: false,
+  showLogo: false
 }
 
 export default settings

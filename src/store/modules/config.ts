@@ -1,14 +1,13 @@
-import settings, { type SettingConfig } from '@/setting'
+import settings from '@/setting'
 
 export const useConfigStore = defineStore('config', () => {
-  const congfigSettings = reactive(settings)
+  const configSettings = reactive(settings)
 
-  const changeConfig = (key: keyof SettingConfig, value: boolean) => {
-    congfigSettings[key] = value
-  }
+  // const changeConfig = (key: keyof SettingConfig, value: ) => {
+  //   configSettings[key] = value
+  // }
 
   return {
-    ...toRefs(congfigSettings),
-    changeConfig
+    ...toRefs(configSettings)
   }
 })

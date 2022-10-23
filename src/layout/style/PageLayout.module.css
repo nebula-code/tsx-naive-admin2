@@ -4,10 +4,6 @@
   max-height: 100vh;
 }
 
-.page-layout-sider {
-  margin-top: 50px;
-}
-
 /* tag-views */
 .tag-views {
   height: 38px;
@@ -17,7 +13,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--n-border-color);
   min-height: 50px;
 }
 
@@ -28,6 +23,7 @@
 
 .left-board:hover {
   background-color: var(--hover-color);
+  transition: background-color .3s var(--n-bezier);
 }
 
 .right-board {
