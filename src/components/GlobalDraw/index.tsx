@@ -1,3 +1,4 @@
+import { ThemeMap } from '@/setting'
 import { useConfigStore } from '@/store/modules/config'
 import {
   NDivider,
@@ -31,6 +32,11 @@ const DescSetting = defineComponent({
   }
 })
 
+const themeOptions = [
+  { label: '亮色主题', value: ThemeMap.LIGHT },
+  { label: '暗色主题', value: ThemeMap.DARK },
+  { label: '菜单暗色', value: ThemeMap.MENUDARK }
+]
 const collapseOptions = [
   { label: '竖线', value: 'bar' },
   { label: '圆角', value: 'arrow-circle' },
@@ -55,7 +61,8 @@ const GlobalDraw = defineComponent({
       showLogo,
       showTagsView,
       showBread,
-      showBreadIcon
+      showBreadIcon,
+      theme
     } = $(storeToRefs(configStore))
 
     return () => (
@@ -65,6 +72,13 @@ const GlobalDraw = defineComponent({
         placement={'right'}
       >
         <NDrawerContent title="编辑设置">
+          <DescSetting title="主题颜色  ">
+            <NSelect
+              style={{ width: '50%' }}
+              v-model:value={theme}
+              options={themeOptions}
+            />
+          </DescSetting>
           <NDivider>配置项</NDivider>
           <NSpace vertical>
             <DescSetting title="显示 Logo">

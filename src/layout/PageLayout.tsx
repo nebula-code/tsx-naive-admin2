@@ -6,7 +6,8 @@ import {
   NAvatar,
   NDropdown,
   NEl,
-  NIcon
+  NIcon,
+  NConfigProvider
 } from 'naive-ui'
 import {
   GithubOutlined,
@@ -28,6 +29,7 @@ import styles from './style/PageLayout.module.css'
 import AppMain from './components/AppMain'
 import { useConfigStore } from '@/store/modules/config'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ThemeMap } from '@/setting'
 
 enum DropdownKey {
   PROFILE = 'profile',
@@ -101,8 +103,12 @@ const PageLayout = defineComponent({
       showLogo,
       showTagsView,
       showBread,
-      showBreadIcon
+      showBreadIcon,
+      theme,
+      themeStyle
     } = $(storeToRefs(configStore))
+
+    console.log(themeStyle)
 
     // contentTop
     const contentMarginTop = $computed(() =>
@@ -119,38 +125,48 @@ const PageLayout = defineComponent({
         hasSider
         position="absolute"
       >
-        <NLayoutSider
-          width={240}
-          style={{ marginTop: showLogo ? '50px' : 0 }}
-          nativeScrollbar={false}
-          bordered={bordered}
-          showTrigger={triggerType === 'custom' ? false : triggerType}
-          collapseMode="width"
-          collapsedWidth={64}
-          collapsed={collapsed}
-          onExpand={() => (collapsed = false)}
-          onCollapse={() => (collapsed = true)}
+        <NConfigProvider
+          theme={
+            theme === ThemeMap.MENUDARK || theme === ThemeMap.DARK
+              ? configStore.themeStyle
+              : null
+          }
         >
-          {showLogo && (
-            <TheLogo
-              collapsed={collapsed}
-              style={{
-                width: collapsed ? '64px' : '240px',
-                borderRight: borderedStyle,
-                borderBottom: borderedStyle
-              }}
-            />
-          )}
+          <NLayoutSider
+            width={240}
+            style={{
+              marginTop: showLogo ? '50px' : 0,
+              height: 'calc(100% - 50px)'
+            }}
+            nativeScrollbar={false}
+            bordered={bordered}
+            showTrigger={triggerType === 'custom' ? false : triggerType}
+            collapseMode="width"
+            collapsedWidth={64}
+            collapsed={collapsed}
+            onExpand={() => (collapsed = false)}
+            onCollapse={() => (collapsed = true)}
+          >
+            {showLogo && (
+              <TheLogo
+                collapsed={collapsed}
+                style={{
+                  width: collapsed ? '64px' : '240px',
+                  borderRight: borderedStyle,
+                  borderBottom: borderedStyle
+                }}
+              />
+            )}
 
-          <BaseMenu />
-        </NLayoutSider>
+            <BaseMenu />
+          </NLayoutSider>
+        </NConfigProvider>
 
         <NLayout nativeScrollbar={false}>
           <NLayoutHeader
             bordered={bordered}
             style={{
-              height: showTagsView ? '88px' : '50px',
-              transition: 'border-color 0s'
+              height: showTagsView ? '88px' : '50px'
             }}
           >
             <div

@@ -8,7 +8,8 @@
   top: 0;
   left: 0;
   background-color: var(--n-color);
-  transition: width .3s var(--n-bezier);
+  /* 主题 折叠 过渡 */
+  transition: width .3s var(--n-bezier), border-color .3s var(--n-bezier), background-color .3s var(--n-bezier);
 }
 
 .logo-img {
