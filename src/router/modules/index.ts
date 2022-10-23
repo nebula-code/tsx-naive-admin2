@@ -1,23 +1,4 @@
-import HomeView from '@/views/HomeView.vue'
-import type { RouteRecordRaw } from 'vue-router'
+import home from './home'
+import dashboard from './dashboard'
 
-const appRoutes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView,
-    meta: {
-      title: '首页'
-    }
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import('@/views/AboutView.vue'),
-    meta: {
-      title: '关于'
-    }
-  }
-]
-
-export default appRoutes
+export default [home, dashboard]
