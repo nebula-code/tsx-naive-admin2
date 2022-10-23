@@ -24,6 +24,7 @@ import GlobalDraw from '@/components/GlobalDraw'
 import TheLogo from './components/TheLogo'
 import BaseMenu from './components/BaseMenu'
 import styles from './style/PageLayout.module.css'
+import AppMain from './components/AppMain'
 
 enum DropdownKey {
   PROFILE = 'profile',
@@ -167,7 +168,7 @@ const PageLayout = defineComponent({
           >
             <NButton onClick={() => (showDraw = true)}>展开</NButton>
 
-            <RouterView />
+            <AppMain />
           </NLayoutContent>
         </NLayout>
 
