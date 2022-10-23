@@ -29,4 +29,8 @@ const settings: SettingConfig = {
   theme: ThemeMap.MENUDARK
 }
 
+export const config = {
+  githubUrl: 'https://www.github.com'
+}
+
 export default settings

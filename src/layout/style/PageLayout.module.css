@@ -6,7 +6,10 @@
 
 /* tag-views */
 .tag-views {
+  display: flex;
+  align-items: center;
   height: 38px;
+  margin: 0 5px;
 }
 
 .page-layout-header {

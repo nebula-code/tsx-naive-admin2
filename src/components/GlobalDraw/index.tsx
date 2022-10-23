@@ -1,5 +1,5 @@
 import { ThemeMap } from '@/setting'
-import { useConfigStore } from '@/store/modules/config'
+import { useConfigStore } from '@/store'
 import {
   NDivider,
   NDrawer,

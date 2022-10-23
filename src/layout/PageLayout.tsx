@@ -27,9 +27,10 @@ import TheLogo from './components/TheLogo'
 import BaseMenu from './components/BaseMenu'
 import styles from './style/PageLayout.module.css'
 import AppMain from './components/AppMain'
-import { useConfigStore } from '@/store/modules/config'
+import { useConfigStore } from '@/store'
 import Breadcrumb from '@/components/Breadcrumb'
-import { ThemeMap } from '@/setting'
+import { config, ThemeMap } from '@/setting'
+import TagsView from '@/components/TagsView'
 
 enum DropdownKey {
   PROFILE = 'profile',
@@ -43,7 +44,7 @@ const PageLayout = defineComponent({
     const router = useRouter()
 
     const goHref = () => {
-      window.open(`https://www.baidu.com`)
+      window.open(config.githubUrl)
     }
 
     const dropOptions = [
@@ -185,18 +186,19 @@ const PageLayout = defineComponent({
                   <NEl
                     tag="div"
                     class={styles['left-board']}
-                    onClick={toggleCollapsed}
                   >
-                    <NIcon
-                      size={22}
-                      style={{ marginTop: '4px' }}
-                    >
-                      {collapsed ? (
-                        <MenuUnfoldOutlined />
-                      ) : (
-                        <MenuFoldOutlined />
-                      )}
-                    </NIcon>
+                    <div onClick={toggleCollapsed}>
+                      <NIcon
+                        size={22}
+                        style={{ marginTop: '4px' }}
+                      >
+                        {collapsed ? (
+                          <MenuUnfoldOutlined />
+                        ) : (
+                          <MenuFoldOutlined />
+                        )}
+                      </NIcon>
+                    </div>
                   </NEl>
                 )}
 
@@ -246,7 +248,9 @@ const PageLayout = defineComponent({
                 </NDropdown>
               </div>
             </div>
-            <div class={styles['tag-views']}>111</div>
+            <div class={styles['tag-views']}>
+              <TagsView />
+            </div>
           </NLayoutHeader>
 
           <NLayoutContent
