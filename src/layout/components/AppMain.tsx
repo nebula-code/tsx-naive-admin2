@@ -1,9 +1,12 @@
+import { useTagsViewStore } from '@/store'
 import { KeepAlive, Suspense, Transition, type VNode } from 'vue'
 import { RouterView } from 'vue-router'
 
 const AppMain = defineComponent({
   name: 'AppMain',
   setup() {
+    const { cachedViews } = $(storeToRefs(useTagsViewStore()))
+
     return () => (
       <RouterView>
         {{
@@ -12,7 +15,7 @@ const AppMain = defineComponent({
               mode="out-in"
               name="fade"
             >
-              <KeepAlive>
+              <KeepAlive include={cachedViews}>
                 <Suspense>
                   {{
                     default: () => h(Component),

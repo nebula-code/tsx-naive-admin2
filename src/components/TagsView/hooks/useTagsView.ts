@@ -1,81 +1,105 @@
-import { useTagsViewStore } from '@/store'
-import type { Component } from 'vue'
-import type { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router'
+import { useTagsViewStore, type View } from '@/store'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
-export interface TagView {
-  affix?: boolean
-  fullPath: string
-  icon?: Component
-  name: string
-  title: string
-}
+const handleView = (route: RouteLocationNormalizedLoaded) => ({
+  ...route.meta,
+  path: route.path,
+  fullPath: route.fullPath,
+  name: route.name as string,
+  viewName: route.matched[route.matched.length - 1].components?.default.name
+})
 
 export function useTagsView() {
   const route = useRoute()
   const router = useRouter()
-  // const tagsViewStore = useTagsViewStore()
-  // const { visitedTags } = $(storeToRefs(tagsViewStore))
-
-  const visitedTagNames = $ref<Set<RouteLocationNormalizedLoaded['name']>>(
-    new Set()
-  )
-  let visitedTagViews = $ref<TagView[]>([])
+  const tagsViewStore = useTagsViewStore()
+  const { visitedViews } = $(storeToRefs(tagsViewStore))
 
   // affixTags
   const affixTags = $computed(() =>
-    router.getRoutes().filter((i) => i.meta.affix)
+    router
+      .getRoutes()
+      .filter((i) => i.meta.affix)
+      .map((i) => ({
+        ...i.meta,
+        path: i.path,
+        fullPath: i.path,
+        name: i.name as string,
+        viewName: i.components?.default.name
+      }))
   )
 
   // init tags
   const initTags = () => {
-    affixTags.forEach((route) => {
-      visitedTagNames.add(route.name)
-      visitedTagViews.push({
-        ...route.meta,
-        fullPath: route.path,
-        name: route.name
-      } as TagView)
+    affixTags.forEach((tag) => {
+      tagsViewStore.addView(tag)
     })
   }
-
-  // addTag
-  const addTag = (route: RouteLocationNormalizedLoaded) => {
-    if (!visitedTagNames.has(route.name)) {
-      visitedTagNames.add(route.name)
-      visitedTagViews.push({
-        ...route.meta,
-        fullPath: route.path,
-        name: route.name
-      } as TagView)
-    }
-  }
-
-  // delTag
-  const delTag = (tagView: TagView) => {
-    visitedTagNames.delete(tagView.name)
-    visitedTagViews = visitedTagViews.filter(
-      (view) => view.name !== tagView.name
-    )
-    // toLastTag
-    toLastTag()
-  }
-
-  // toLastTag
-  const toLastTag = () => {
-    router.push(toRaw(visitedTagViews[visitedTagViews.length - 1]))
-  }
-
-  watch(route, () => {
-    addTag(route)
-  })
 
   onMounted(() => {
     initTags()
     addTag(route)
   })
 
+  // add tag
+  const addTag = (route: RouteLocationNormalizedLoaded) => {
+    tagsViewStore.addView(handleView(route))
+  }
+
+  watch(route, () => {
+    addTag(route)
+  })
+
+  // del tag
+  const delTag = (view: View) => {
+    const ret = tagsViewStore.delView(toRaw(view))
+    toLastTag(ret!)
+  }
+  // to last tag
+  const toLastTag = (i: number) => {
+    router.push(visitedViews[i - 1])
+  }
+
+  // click current tag
+  const clickTag = (view: View) => {
+    view = toRaw(view)
+    router.push(view.path)
+  }
+
+  // refresh
+  const refresh = (view: View) => {
+    tagsViewStore.delCachedView(view)
+    if (view.path === route.path) {
+      // ! 使用局部刷新
+      router.go(0)
+    } else router.push(view.path)
+  }
+
+  // del tight tags
+  const delRightTags = (view: View) => {
+    tagsViewStore.delRightViews(view)
+    router.push(view.path)
+  }
+
+  // del other tags
+  const delOtherTags = (view: View) => {
+    tagsViewStore.delOtherViews(view)
+    router.push(view.path)
+  }
+
+  // del all tags
+  const delAllTags = () => {
+    tagsViewStore.delAllViews()
+    router.push('/')
+  }
+
   return $$({
-    visitedList: visitedTagViews,
-    delTag
+    visitedViews,
+    refresh,
+    delTag,
+    clickTag,
+    delRightTags,
+    delOtherTags,
+    delAllTags
   })
 }

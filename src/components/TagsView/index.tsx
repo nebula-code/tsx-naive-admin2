@@ -1,5 +1,6 @@
-import { NSpace, NTag } from 'naive-ui'
-import { useTagsView, type TagView } from './hooks/useTagsView'
+import { NDropdown, NSpace, NTag } from 'naive-ui'
+import { useContextMenu } from './hooks/useContextMenu'
+import { useTagsView } from './hooks/useTagsView'
 
 const TagsView = defineComponent({
   name: 'TagsView',
@@ -7,27 +8,61 @@ const TagsView = defineComponent({
     const route = useRoute()
     const router = useRouter()
 
-    const { visitedList: visitedTagViews, delTag } = $(useTagsView())
+    const {
+      visitedViews,
+      refresh,
+      delTag,
+      clickTag,
+      delRightTags,
+      delOtherTags,
+      delAllTags
+    } = $(useTagsView())
 
-    const handleCloseTag = (tag: TagView) => {
-      delTag(toRaw(tag))
-    }
-    const handleClickTag = (tag: TagView) => {
-      router.push(toRaw(tag))
-    }
+    const {
+      handleContextmenu,
+      handleSelect,
+      handleClickoutside,
+      dropMenus,
+      showDrop,
+      x,
+      y
+    } = $(
+      useContextMenu({
+        refresh,
+        delTag,
+        delRightTags,
+        delOtherTags,
+        delAllTags
+      })
+    )
 
     return () => (
       <NSpace size={'small'}>
-        {visitedTagViews.map((i) => (
+        {visitedViews.map((i) => (
           <NTag
             closable={!i.affix}
             type={i.fullPath === route.fullPath ? 'success' : 'default'}
             style={{ cursor: 'pointer' }}
-            onClose={() => handleCloseTag(i)}
+            onClose={() => delTag(i)}
           >
-            <span onClick={() => handleClickTag(i)}>{i.title}</span>
+            <span
+              onClick={() => clickTag(i)}
+              onContextmenu={(e) => handleContextmenu(e, i)}
+            >
+              {i.title}
+            </span>
           </NTag>
         ))}
+        <NDropdown
+          placement="bottom-start"
+          trigger="manual"
+          show={showDrop}
+          x={x}
+          y={y}
+          options={dropMenus}
+          onSelect={handleSelect}
+          onClickoutside={handleClickoutside}
+        />
       </NSpace>
     )
   }

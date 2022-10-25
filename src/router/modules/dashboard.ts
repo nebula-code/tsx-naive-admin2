@@ -31,6 +31,16 @@ export default {
         title: '仪表盘',
         icon: PieChartFilled
       }
+    },
+    {
+      path: 'test',
+      name: 'test',
+      component: () => import('@/views/dashboard/test-view'),
+      meta: {
+        role: ['*'],
+        title: 'test',
+        icon: PieChartFilled
+      }
     }
   ]
 } as RouteRecordRaw
