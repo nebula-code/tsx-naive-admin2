@@ -3,10 +3,10 @@ import 'vue-router'
 
 declare module 'vue-router' {
   interface RouteMeta {
-    icon: string | Component
+    icon?: string | Component
     title: string
     role?: string[]
-    keepAlive?: boolean
+    noKeepAlive?: boolean
     affix?: boolean
   }
 }

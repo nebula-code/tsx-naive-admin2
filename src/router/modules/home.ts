@@ -9,6 +9,7 @@ export default {
   meta: {
     icon: HomeOutlined,
     title: '首页',
-    affix: true
+    affix: true,
+    noKeepAlive: true
   }
 } as RouteRecordRaw
