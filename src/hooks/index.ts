@@ -3,11 +3,10 @@ export { useFullscreen } from '@vueuse/core'
 export const useRefresh = () => {
   let show = $ref(true)
 
-  const refresh = () => {
+  const refresh = async () => {
     show = false
-    nextTick(() => {
-      show = true
-    })
+    await nextTick()
+    show = true
   }
-  return { refresh }
+  return $$({ show, refresh })
 }

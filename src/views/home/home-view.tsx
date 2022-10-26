@@ -1,7 +1,15 @@
+import { NButton } from 'naive-ui'
+
 const HomeView = defineComponent({
   name: 'HomeView',
   setup() {
-    return () => <div>{'home'}</div>
+    let count = $ref(11)
+    return () => (
+      <div>
+        {'home'}
+        <NButton onClick={() => count++}>{count}</NButton>
+      </div>
+    )
   }
 })
 

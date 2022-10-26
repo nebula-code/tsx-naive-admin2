@@ -1,7 +1,15 @@
+import { NButton } from 'naive-ui'
+
 const WorkPlace = defineComponent({
   name: 'WorkPlace',
   setup() {
-    return () => <div>{'WorkPlace'}</div>
+    let count = $ref(0)
+    return () => (
+      <div>
+        {'home'}
+        <NButton onClick={() => count++}>{count}</NButton>
+      </div>
+    )
   }
 })
 

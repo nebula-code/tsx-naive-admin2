@@ -4,29 +4,37 @@ import { RouterView } from 'vue-router'
 
 const AppMain = defineComponent({
   name: 'AppMain',
-  setup() {
+  props: {
+    show: Boolean
+  },
+  setup(props) {
     const { cachedViews } = $(storeToRefs(useTagsViewStore()))
 
     return () => (
-      <RouterView>
-        {{
-          default: ({ Component }: { Component: VNode }) => (
-            <Transition
-              mode="out-in"
-              name="fade"
-            >
-              <KeepAlive include={cachedViews}>
-                <Suspense>
-                  {{
-                    default: () => h(Component),
-                    fallback: () => '正在加载。。。'
-                  }}
-                </Suspense>
-              </KeepAlive>
-            </Transition>
-          )
-        }}
-      </RouterView>
+      <>
+        {props.show && (
+          <RouterView>
+            {{
+              default: ({ Component }: { Component: VNode }) => (
+                <Transition
+                  mode="out-in"
+                  name="fade"
+                >
+                  <KeepAlive>
+                    {h(Component)}
+                    {/* <Suspense>
+                      {{
+                        default: h(Component),
+                        fallback: () => '正在加载。。。'
+                      }}
+                    </Suspense> */}
+                  </KeepAlive>
+                </Transition>
+              )
+            }}
+          </RouterView>
+        )}
+      </>
     )
   }
 })

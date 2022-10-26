@@ -20,7 +20,7 @@ import {
   MenuUnfoldOutlined
 } from '@vicons/antd'
 import { renderIcon } from '@/utils'
-import { useFullscreen } from '@/hooks'
+import { useFullscreen, useRefresh } from '@/hooks'
 import TipIcon from '@/components/TipIcon'
 import GlobalDraw from '@/components/GlobalDraw'
 import TheLogo from './components/TheLogo'
@@ -42,6 +42,8 @@ const PageLayout = defineComponent({
   name: 'PageLayout',
   setup() {
     const router = useRouter()
+    const { show, refresh } = $(useRefresh())
+    provide('refresh', refresh)
 
     const goHref = () => {
       window.open(config.githubUrl)
@@ -259,7 +261,7 @@ const PageLayout = defineComponent({
             contentStyle={{ padding: '20px' }}
             style={{ marginTop: contentMarginTop }}
           >
-            <AppMain />
+            <AppMain show={show} />
           </NLayoutContent>
         </NLayout>
 

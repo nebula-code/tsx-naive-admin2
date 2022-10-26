@@ -14,6 +14,7 @@ export function useTagsView() {
   const router = useRouter()
   const tagsViewStore = useTagsViewStore()
   const { visitedViews } = $(storeToRefs(tagsViewStore))
+  const refreshLoad = inject('refresh')
 
   // affixTags
   const affixTags = $computed(() =>
@@ -70,8 +71,8 @@ export function useTagsView() {
   const refresh = (view: View) => {
     tagsViewStore.delCachedView(view)
     if (view.path === route.path) {
-      // ! 使用局部刷新
-      router.go(0)
+      // eslint-disable-next-line no-extra-semi
+      ;(refreshLoad as Function)()
     } else router.push(view.path)
   }
 
