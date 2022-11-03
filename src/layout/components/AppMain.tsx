@@ -16,18 +16,14 @@ const AppMain = defineComponent({
           <RouterView>
             {{
               default: ({ Component }: { Component: VNode }) => (
-                <Transition
-                  mode="out-in"
-                  name="fade"
-                >
-                  <KeepAlive>
-                    {h(Component)}
-                    {/* <Suspense>
+                <Transition mode="out-in">
+                  <KeepAlive include={cachedViews}>
+                    <Suspense>
                       {{
                         default: h(Component),
                         fallback: () => '正在加载。。。'
                       }}
-                    </Suspense> */}
+                    </Suspense>
                   </KeepAlive>
                 </Transition>
               )
